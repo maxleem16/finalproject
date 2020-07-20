@@ -15,7 +15,7 @@ public class Criteria {
 		this.perPageNum = perPageNum;
 	}
 
-	// 1페이지인 경우 pageStart는 0
+//1페이지인 경우 pageStart는 0
 	public int getPageStart() {
 		return (this.page - 1) * perPageNum;
 	}
@@ -57,5 +57,4 @@ public class Criteria {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", searchType=" + searchType + ", keyword="
 				+ keyword + "]";
 	}
-
 }
