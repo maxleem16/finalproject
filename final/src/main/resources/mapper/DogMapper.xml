@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DogMapper">
+    <select id="list" resultType="com.example.domain.DogVO">
+        select * from dog
+        where adoptStatus=0
+        <if test="searchType=='species'">
+        and species like concat("%",#{keyword},"%")
+        </if>
+    	limit #{pageStart}, #{perPageNum}
+    </select>
+    <select id="totalCount" resultType="int">
+    	select count(*) from dog
+    	<if test="searchType=='species'">
+        where species like concat("%",#{keyword},"%")
+        </if>
+    </select>
+    <select id="read" resultType="com.example.domain.DogVO">
+    	select * from dog where dogCode=#{dogCode}
+    </select>
+    <insert id="insert">
+    	insert into dog(dogCode,age,gender,species,color,size,inoculationStatus,dogImage,feature,neutralizationStatus,information)
+    	values(#{dogCode},#{age},#{gender},#{species},#{color},#{size},#{inoculationStatus},#{dogImage},#{feature},#{neutralizationStatus},#{information})
+    </insert>
+    <insert id="dog_attach">
+    	insert into dog_attach(image,dogCode)
+    	values(#{image},#{dogCode})
+    </insert>
+    <update id="adoptedDog">
+    	update dog set adpotStatus=#{adoptStatus}
+    	where dogCode=#{dogCode}
+    </update>
+</mapper>
