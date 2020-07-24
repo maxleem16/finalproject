@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>DDOGDOG HomePage</title>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<style>
+
+body, html { 
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#divImg img {
+    border: 0;
+    padding: 0; 
+    width: 100%;
+    min-height: 100%;
+}
+
+.divWrap {
+	position: relative;
+    background-image: url('/resources/img/index.jpg');                                                               
+    background-size: cover;
+}
+
+.divWrap #divMenu{
+     position: absolute;
+}
+
+#divMenu {
+
+}
+
+#divImgBtn {
+	cursor:pointer;
+	background:#FA3313;
+	height:35px;
+	width:100px;
+	position:absolute;
+	top:500px;
+	left:120px;
+	border-radius: 5px 5px 5px 5px;
+	cursor:pointer;	
+	font-size:16px;
+	color:white;
+	border: none;
+	outline: none;
+}
+
+#divDogBtn {
+	cursor:pointer;
+	background:#FA3313;
+	height:35px;
+	width:100px;
+	position:absolute;
+	top:1620px;
+	left:700px;
+	border-radius: 5px 5px 5px 5px;
+	cursor:pointer;	
+	font-size:16px;
+	color:white;
+	border: none;
+	outline: none;
+}
+
+#divImgBtn:after {
+	content: ' \261B';
+}
+
+#aTop {
+	display:scroll;
+	position:fixed;
+	bottom:10px;
+	right:10px; 
+	width:50px;
+}
+</style>
+</head>
+<body>
+	<div class="divWrap">
+		<div id="divMenu">
+			<jsp:include page="menu.jsp"/>
+		</div>
+		<div id="divImg">
+			<img src="/resources/img/index.jpg">		<!-- 배경 이미지 -->
+		</div>
+		<button id="divImgBtn">입양하기</button>
+		<button id="divDogBtn">보러가기</button>
+		<a href="#" id="aTop">
+			<img src="/resources/img/top.jpg" >
+		</a>
+
+	</div>
+	<jsp:include page="footer.jsp"/>
+
+</body>
+<script>
+	$("#aTop").click(function(){
+	    $('body,html').animate({scrollTop:0},400 );
+	    return false;
+	  });
+	
+</script>
+</html>
