@@ -26,17 +26,17 @@ import com.example.service.KakaoService;
 public class UserController {
 	@Autowired
 	UserMapper mapper;
-	
+
 	@Autowired
 	KakaoService kakao;
 
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
-	
+
 	@RequestMapping("/user/addressAPI")
 	public void addressAPI() {
 
-	}	
+	}
 
 	@RequestMapping("/user/login")
 	public void login() {
@@ -54,12 +54,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
-	public String insertPost(UserVO vo) {
+	public void insertPost(UserVO vo) {
 		String inpassword = vo.getPassword();
 		String password = passEncoder.encode(inpassword);
 		vo.setPassword(password);
 		mapper.insert(vo);
-		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
@@ -90,30 +89,29 @@ public class UserController {
 	public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		response.setContentType("text/html; charset=utf-8");
-		kakao.kakaoLogout((String)session.getAttribute("access_Token"));
-			
+		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+
 		session.removeAttribute("access_Token");
 		session.removeAttribute("id");
 		session.invalidate();
-		
-		Cookie cookie=WebUtils.getCookie(request, "id");
-		if(cookie!=null){
+
+		Cookie cookie = WebUtils.getCookie(request, "id");
+		if (cookie != null) {
 			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
-			
+
 		}
-	
+
 		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	@ResponseBody
 	public int loginPost(UserVO vo, boolean chkLogin, HttpSession session, HttpServletResponse response) {
-		System.out.println(chkLogin);
 		int result = 0;
 		UserVO readVO = mapper.read(vo.getId());
-		if (readVO.getActiveStatus() == "0") {
+		if (readVO.getActiveStatus().equals("0")) {
 			if (readVO != null) { // 아이디가 존재하는 경우
 				if (passEncoder.matches(vo.getPassword(), readVO.getPassword())) {
 					result = 2;
