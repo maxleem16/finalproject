@@ -63,6 +63,7 @@
 				"chkLogin" : chkLogin
 			},
 			success : function(data) {
+				alert(data);
 				if (data == 0) {
 					alert("아이디가 존재하지 않습니다.");
 					$(frm.id).focus();
