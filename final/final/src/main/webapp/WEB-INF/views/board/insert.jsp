@@ -1,44 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 	
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>
-      input[type=file]{visibility:hidden; height:0px;}
-      #listFile img{width:100px;margin-left:15px;}
-   </style>
-<title>게시글 읽기</title>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>게시글 읽기</title>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 </head>
 <body>
-	<jsp:include page="../menu.jsp" />
-	<h1>[제보게시물 작성]</h1>
-	<form name="frm" action="insert" method="post"
-		enctype="multipart/form-data">
-		<input type="hidden" name="writer" value="${id}">
+	<jsp:include page="../menu.jsp"/>
+	<h1>[게시글 읽기]</h1>
+	<form name="frm" action="insert" method="post" enctype="multipart/form-data">
+		<input type="hidden" value="${id}" name="writer">
 		<table border=1>
 			<tr>
-				<td>발견시간</td>
-				<td><input type="text" name="foundTime" size=50></td>
+				<td>Title</td>
+				<td><input type="text" name="postTitle" size=50></td>
 			</tr>
 			<tr>
-				<td>발견위치</td>
-				<td><input type="text" name="foundLocation" size=50></td>
-			</tr>
-			<tr>
-				<td>보호여부</td>
-				<td>
-					<input type="radio" name="protection" value=0 <c:out value="${vo.protection=='0'?'checked':''}"/>>보호중&nbsp;&nbsp;
-					<input type="radio" name="protection" value=1 <c:out value="${vo.protection=='1'?'checked':''}"/>>미보호중&nbsp;&nbsp;
+				<td colspan=2>
+					<textarea rows="10" cols="80" name="postContent"></textarea>
 				</td>
-			</tr>
-			<tr>
-				<td>특징</td>
-				<td><input type="text" name="feature" size=50></td>
 			</tr>
 			<tr>
 				<th width=100>대표이미지</th>
@@ -57,8 +40,7 @@
 		<input type="submit" value="저장">
 		<input type="reset" value="취소">
 		<input type="button" value="목록" id="btnList">
-	</form>
-	<hr>
+	</form><hr>
 </body>
 <script>
 
@@ -83,16 +65,15 @@
 		var file=$(frm.file)[0].files[0];
 		$("#image").attr("src", URL.createObjectURL(file));
 	});
-	
+
 	$(frm).submit(function(e){
 		e.preventDefault();
-		if(!confirm("저장하시겠습니까?")) return;
+		if(!confirm("저장하시겠습니까?"))return;
 		frm.submit();
 	});
-
+	
 	$("#btnList").on("click", function(){
 		location.href="list";
 	});
-
 </script>
 </html>
