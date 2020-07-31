@@ -101,7 +101,7 @@
 		<div style="border-bottom:1px solid gold;padding:5px 0px 5px 5px;">{{sponsorContent}}</div>
 	{{/each}}
 	</script>
-	<div id="pagination2"></div>	<!-- 페이징안됨 -->
+	<div id="pagination2"></div>
 	<jsp:include page="../footer.jsp"/>
 </body>
 <script>
@@ -111,7 +111,6 @@
 	//댓글목록
 	function getList(){
 		var donationMethod=$("#donationMethod").val();
-		var page=1;
 		$.ajax({
 			type:"get",
 			url:"/donation/applyList",
@@ -142,6 +141,12 @@
 			}
 		});
 	}
+	
+	$("#pagination2").on("click","a",function(e){
+		e.preventDefault();
+		page=$(this).attr("href");
+		getList();
+	});
 	
 	//페이징
 	$("#pagination a").on("click",function(e){
