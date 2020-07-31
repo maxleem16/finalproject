@@ -7,6 +7,7 @@ public class CounselingVO extends AdoptVO{
 	private String counselingTime;
 	private Date reservedDate;
 	private String cancleCheck;
+	
 	public String getCounselingTime() {
 		return counselingTime;
 	}

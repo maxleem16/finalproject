@@ -5,6 +5,8 @@ public class Criteria {
 	private int perPageNum;
 	private String searchType;
 	private String keyword;
+	private String sortType;
+	private String desc;
 
 	public Criteria() {
 		this(1, 10);
@@ -15,7 +17,7 @@ public class Criteria {
 		this.perPageNum = perPageNum;
 	}
 
-//1페이지인 경우 pageStart는 0
+	//1페이지인 경우 pageStart는 0
 	public int getPageStart() {
 		return (this.page - 1) * perPageNum;
 	}
@@ -56,5 +58,21 @@ public class Criteria {
 	public String toString() {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", searchType=" + searchType + ", keyword="
 				+ keyword + "]";
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }

@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="/resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="../menu.jsp"/>
+	<div id="divMenu"><jsp:include page="../menu.jsp"/></div>
 	<h1>[신고글 정보]</h1>
 	<form name="frm" action="update" method="post" enctype="multipart/form-data">
 		<table border=1>

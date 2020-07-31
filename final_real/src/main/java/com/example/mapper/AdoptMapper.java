@@ -5,12 +5,14 @@ import com.example.domain.Criteria;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.example.domain.AdoptFormVO;
 
 public interface AdoptMapper {
 
 	public void insert(AdoptVO vo);
-
+	
 	public void apply(AdoptFormVO vo);
 
 	public AdoptVO read(int applicationNo);
@@ -27,4 +29,5 @@ public interface AdoptMapper {
 
 	public int totalCount(Criteria cri);
 
+	public int cancleCount(@Param("cancleCheck") String cancleCheck, @Param("id") String id);
 }

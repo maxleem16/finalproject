@@ -117,6 +117,7 @@
 	</div>
 	<button id="btnCancle">입양취소</button>
 	<button id="btnCounsel">상담예약</button>
+	<button id="btnUserInfo">유저정보</button>
 </body>
 <script>
 	var appconfirm = "${vo.applicationConfirm}";
@@ -124,6 +125,10 @@
 	var cancleCheck=1;
 	var applicationNo="${applicationNo}";
 
+	$("#btnUserInfo").click(function(){
+		location.href="/manage/userRead?id="+id;
+	});
+	
 	$("#btnCounsel").click(function() {
 		if (appconfirm == "1") {
 			$(frm).submit();
@@ -143,9 +148,10 @@
 				"cancleCheck" : cancleCheck
 			},
 			success : function() {
-				location.href="/mypage/applyList?id="+id;
 			}
 		});
+		alert("취소되었습니다!");
+		location.href="/manage/userRead?id="+id;
 	});
 </script>
 </html>

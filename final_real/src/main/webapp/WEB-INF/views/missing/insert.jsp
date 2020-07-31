@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="../menu.jsp"/>
+	<div id="divMenu"><jsp:include page="../menu.jsp"/></div>
 	<h1>[실종신고 등록]</h1>
 	<form name="frm" action="insert" method="post" enctype="multipart/form-data">
 		<table border=1>

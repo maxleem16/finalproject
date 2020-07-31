@@ -75,7 +75,8 @@
 	
 	$(".foundNo").on("click",function(){
 		var foundNo=$(this).html();
-		location.href="read?foundNo="+foundNo;
+		var page=$("#page").val();
+		location.href="read?foundNo="+foundNo;+"&page="+page;
 	});
 </script>
 </html>

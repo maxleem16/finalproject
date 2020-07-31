@@ -91,7 +91,7 @@ public class infoReportController {
 	}
 	
 	@RequestMapping(value="/infoReport/update", method=RequestMethod.POST)
-	   public String updatePost(infoReportVO vo, MultipartHttpServletRequest multi) throws Exception {
+	   public String updatePost(infoReportVO vo, MultipartHttpServletRequest multi,Criteria cri) throws Exception {
 	      MultipartFile file=multi.getFile("file");   //"file"은 form에서의 이름
 	      //파일업로드
 	      if(!file.isEmpty()) {   //업로드할 파일이 비어있지않으면
@@ -125,12 +125,14 @@ public class infoReportController {
 	      vo.setDogImages(images);
 	      
 	      service.update(vo);
-	      return "redirect:list";
+	      return "redirect:list?page="+cri.getPage();
 	   }
 	
 	@RequestMapping(value="/infoReport/delete", method=RequestMethod.POST)
-	public String delete(int foundNo){
+	public String delete(int foundNo,Criteria cri){
 		service.delete(foundNo);
-		return "redirect:list";
+		return "redirect:list?page="+cri.getPage();
 	}
+	
+
 }
