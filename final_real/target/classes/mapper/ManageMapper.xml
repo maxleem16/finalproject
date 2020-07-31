@@ -7,41 +7,10 @@
 		join user u on
 		a.applicant=u.id
 		join dog d on
-		a.dogCode=d.dogCode
-		<if test="searchType=='applicationConfirm'">
-        where applicationConfirm like concat("%",#{keyword},"%")
-        </if>
-        <if test="searchType=='cancleChk'">
-        where cancleChk like concat("%",#{keyword},"%")
-        </if>
-        <if test="sortType=='applicationNo'">
-        order by applicationNo #{desc}
-        </if>
-        <if test="sortType=='dogCode'">
-        order by dogCode #{desc}
-        </if>
-        <if test="sortType=='applicant'">
-        order by applicant #{desc}
-        </if>
-        <if test="sortType=='appliedDate'">
-        order by appliedDate #{desc}
-        </if>
-    	limit #{pageStart}, #{perPageNum}
+		a.dogCode=d.dogCode;
 	</select>
 	<select id="counselingList"
 		resultType="com.example.domain.CounselingVO">
 		select c.*, u.* from counseling c, user u where c.client=u.id;
 	</select>
-	<select id="applyCount" resultType="int">
-		select count(*) from adopt
-		<if test="searchType=='applicationConfirm'">
-        where applicationConfirm like concat("%",#{keyword},"%")
-        </if>
-        <if test="searchType=='cancleChk'">
-        where cancleChk like concat("%",#{keyword},"%")
-        </if>
-	</select>
-	<update id="cancleUpdate">
-		update user set position=#{position} where id=#{id}
-	</update>
 </mapper>

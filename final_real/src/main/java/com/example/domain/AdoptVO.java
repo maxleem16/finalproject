@@ -2,14 +2,11 @@ package com.example.domain;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class AdoptVO extends UserVO {
 	private int applicationNo;
 	private String applicant;
 	private String dogCode;
 	private String applicationConfirm;
-	@JsonFormat(pattern="yyyy/MM/dd",timezone ="Asia/Seoul")
 	private Date appliedDate;
 	private String cancleCheck;
 

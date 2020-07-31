@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
-	<div id="divMenu"><jsp:include page="../menu.jsp"/></div>
+	<jsp:include page="../menu.jsp"/>
 	<h1>[실종신고 목록]</h1>
 	<div>
 		<form name="frm" action="list">

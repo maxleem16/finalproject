@@ -10,24 +10,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.domain.AdoptFormVO;
 import com.example.domain.AdoptVO;
 import com.example.domain.CounselingVO;
-import com.example.mapper.AdoptMapper;
 import com.example.mapper.MypageMapper;
 import com.example.service.AdoptService;
 
 @Controller
 public class MypageController {
+
 	@Autowired
 	MypageMapper mapper;
+	
 	@Autowired
 	AdoptService aService;
-	@Autowired
-	AdoptMapper amapper;
 	
 	@RequestMapping("/mypage/applyList")
-	public void applyList(Model model, String id, String cancleCheck) {
+	public void applyList(Model model, String id) {
 		model.addAttribute("list", mapper.applyList(id));
-		cancleCheck="1";
-		model.addAttribute("count",amapper.cancleCount(cancleCheck, id));
 	}
 	
 	@RequestMapping("/mypage/applyRead")
@@ -37,10 +34,8 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value="/mypage/applyCancle", method=RequestMethod.POST)
-	public String applyCancle(AdoptVO vo) {
+	public void applyCancle(AdoptVO vo) {
 		aService.cancle(vo);
-		String applicant=vo.getApplicant();
-		return "redirect/manage/userRead?id="+applicant; 
 	}
 	
 	@RequestMapping("/mypage/counselReserve")

@@ -37,7 +37,7 @@
 		update info_Report set foundTime=#{foundTime},
 		foundLocation=#{foundLocation}, protection=#{protection},
 		feature=#{feature}, dogImage=#{dogImage}, modifiedTime=now()
-		where foundNo=#{foundNo}
+		where foundNo=#{foundNo};
 	</update>
 	<delete id="delete">
 		delete from info_Report where foundNo=#{foundNo}

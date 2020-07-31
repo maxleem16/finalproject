@@ -63,7 +63,6 @@
 				"chkLogin" : chkLogin
 			},
 			success : function(data) {
-				alert(data);
 				if (data == 0) {
 					alert("아이디가 존재하지 않습니다.");
 					$(frm.id).focus();
@@ -71,7 +70,7 @@
 					alert("비밀번호가 일치하지 않습니다.");
 					$(frm.pass).focus();
 				} else if (data == 3){
-					alert("탈되된 회원아이디입니다.");
+					alert("탈퇴된 회원아이디입니다.");
 					$(frm.id).focus();
 				}else{
 					alert("로그인 되었습니다.");
