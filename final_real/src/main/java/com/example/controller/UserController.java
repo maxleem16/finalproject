@@ -26,13 +26,13 @@ import com.example.service.KakaoService;
 public class UserController {
 	@Autowired
 	UserMapper mapper;
-	
+
 	@Autowired
 	KakaoService kakao;
 
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
-	
+
 	@RequestMapping("/user/addressAPI")
 	public void addressAPI() {
 

@@ -1,13 +1,10 @@
 package com.example.domain;
 
-import java.util.Date;
-
 public class UserVO extends DogVO{
-	
 	private String id;
 	private String password;
 	private String name;
-	private Date birthday;
+	private String birthday;
 	private String address;
 	private String tel;
 	private String email;
@@ -15,6 +12,7 @@ public class UserVO extends DogVO{
 	private String position;
 	private int point;
 	private String activeStatus;
+	
 	public String getId() {
 		return id;
 	}
@@ -33,10 +31,10 @@ public class UserVO extends DogVO{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	public String getAddress() {
@@ -69,17 +67,25 @@ public class UserVO extends DogVO{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	public int getPoint() {
-		return point;
-	}
-	public void setPoint(int point) {
-		this.point = point;
-	}
 	public String getActiveStatus() {
 		return activeStatus;
 	}
 	public void setActiveStatus(String activeStatus) {
 		this.activeStatus = activeStatus;
 	}
+	
+	@Override
+	public String toString() {
+		return "UserVO [id=" + id + ", password=" + password + ", name=" + name + ", birthday=" + birthday
+				+ ", address=" + address + ", tel=" + tel + ", email=" + email + ", image=" + image + ", position="
+				+ position + ", activeStatus=" + activeStatus + "]";
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	
 	
 }

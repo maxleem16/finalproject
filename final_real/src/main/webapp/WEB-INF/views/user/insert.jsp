@@ -35,7 +35,7 @@
 					<form name="form" id="form" method="post">
 						<input type="hidden" id="roadAddrPart1" name="roadAddrPart1" /><br>
 						<input type="button" onClick="goPopup();" value="주소검색" />
-						우편번호: <input type="text" id="zipNo" name="zipNo" />
+						우편번호: <input type="hidden" id="zipNo" name="zipNo" />
 						<input type="hidden" id="addrDetail" name="addrDetail" /><br>
 						 주소: <input type="text" id="roadFullAddr" name="roadFullAddr" /><br> 
 						<input type="hidden" id="roadAddrPart2" name="roadAddrPart2" /><br>	
@@ -62,7 +62,7 @@
 		var password=$("#password").val();
 		var name=$("#name").val();
 		var birthday=$("#birthday").val();
-		var address=$("#address").val();
+		var address=$("#roadFullAddr").val();
 		var tel=$("#tel").val();
 		var email=$("#email").val();
 		if (!check) {
@@ -71,9 +71,10 @@
 			$.ajax({
 				type:"post",
 				url:"/user/insert",
-				data:{"id":id,"password":password,"name":name,"birthday":birthday,"address":address,"tel":tel,"email":email,},
+				data:{"id":id,"password":password,"name":name,"birthday":birthday,"address":address,"tel":tel,"email":email},
 				success:function(){
 					alert("회원가입이 완료되었습니다.");
+					location.href="../index";
 				}
 			});
 		}
@@ -84,7 +85,7 @@
 	});
 
 	$("#btnCheck").on("click", function(e) {
-		var id = $(frm.id).val();
+		var id = $("#id").val();
 		e.preventDefault();
 		$.ajax({
 			type : "post",

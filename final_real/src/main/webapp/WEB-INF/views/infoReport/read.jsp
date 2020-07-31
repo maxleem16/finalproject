@@ -19,16 +19,28 @@
 	<h1>[제보게시물 작성]</h1>
 	<form name="frm" action="update" method="post"
 		enctype="multipart/form-data">
+		<input type="hidden" name="page" value="${cri.page}">
 		<input type="hidden" name="foundNo" value="${vo.foundNo}">
-		<input type="hidden" name="writer" value="user01">
 		<table border=1>
 			<tr>
-				<td>발견시간</td>
-				<td><input type="text" name="foundTime" size=50 value="${vo.foundTime}"></td>
+				<c:if test="${id == vo.writer}">
+					<td>발견시간</td>
+					<td><input type="text" name="foundTime" size=50 value="${vo.foundTime}"></td>
+				</c:if>
+				<c:if test="${id != vo.writer}">
+					<td>발견시간</td>
+					<td><input type="text" name="foundTime" size=50 value="${vo.foundTime}" readonly></td>
+				</c:if>
 			</tr>
 			<tr>
-				<td>발견위치</td>
-				<td><input type="text" name="foundLocation" size=50 value="${vo.foundLocation}"></td>
+				<c:if test="${id == vo.writer}">
+					<td>발견위치</td>
+					<td><input type="text" name="foundLocation" size=50 value="${vo.foundLocation}"></td>
+				</c:if>
+				<c:if test="${id != vo.writer}">
+					<td>발견위치</td>
+					<td><input type="text" name="foundLocation" size=50 value="${vo.foundLocation}" readonly></td>
+				</c:if>
 			</tr>
 			<tr>
 				<td>보호여부</td>
@@ -38,8 +50,14 @@
 				</td>
 			</tr>
 			<tr>
-				<td>특징</td>
-				<td><input type="text" name="feature" size=50 value="${vo.feature}"></td>
+				<c:if test="${id == vo.writer}">
+					<td>특징</td>
+					<td><input type="text" name="feature" size=50 value="${vo.feature}"></td>
+				</c:if>
+				<c:if test="${id != vo.writer}">
+					<td>특징</td>
+					<td><input type="text" name="feature" size=50 value="${vo.feature}" readonly></td>
+				</c:if>
 			</tr>
 			<tr>
 				<th width=100>대표이미지</th>
@@ -68,10 +86,15 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="저장">
-		<input type="reset" value="취소">
-		<input type="button" value="목록" id="btnList">
-		<input type="button" value="삭제" id="btnDelete">
+		<c:if test="${id == vo.writer}">
+			<input type="submit" value="저장">
+			<input type="reset" value="취소">
+			<input type="button" value="목록" id="btnList">
+			<input type="button" value="삭제" id="btnDelete">
+		</c:if>
+		<c:if test="${id != vo.writer}">
+			<input type="button" value="목록" id="btnList">
+		</c:if>
 	</form>
 	<hr>
 </body>
@@ -92,7 +115,8 @@
 	});
 	
 	$("#btnList").on("click", function(){
-		location.href="list";
+		var page=${cri.page};
+		location.href="list?page="+page;
 	});
 	
 	$(frm.files).on("change", function(){

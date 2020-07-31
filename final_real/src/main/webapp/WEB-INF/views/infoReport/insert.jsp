@@ -19,7 +19,7 @@
 	<h1>[제보게시물 작성]</h1>
 	<form name="frm" action="insert" method="post"
 		enctype="multipart/form-data">
-		<input type="hidden" name="writer" value="user01">
+		<input type="hidden" name="writer" value="${id}">
 		<table border=1>
 			<tr>
 				<td>발견시간</td>

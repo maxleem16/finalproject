@@ -39,4 +39,8 @@
 		update adopt set applicationConfirm=#{applicationConfirm}
 		where applicationNo=#{applicationNo}
 	</update>
+	<select id="cancleCount" resultType="int">
+		select count(case when cancleCheck=#{cancleCheck} then 1 end)
+		from adopt,user where applicant=id and id=#{id};
+	</select>
 </mapper>
