@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MissingMapper">
+    <select id="list" resultType="com.example.domain.MissingVO">
+        select m.*,u.name from missing_report m, user u where m.writer=u.id 
+        <if test="searchType=='missingLocation'">
+           and missingLocation like concat('%', #{keyword}, '%') 
+        </if>
+        <if test="searchType=='tel'">
+           and u.tel like concat('%', #{keyword}, '%') 
+        </if>
+        <if test="searchType=='feature'">
+           and feature like concat('%', #{keyword}, '%') 
+        </if>
+        order by reportNo desc
+        limit #{pageStart},#{perPageNum}
+    </select>
+    <select id="myList" resultType="com.example.domain.MissingVO">
+        select m.*,u.name from missing_report m, user u where m.writer=u.id and u.id=#{id}      
+        order by reportNo desc
+    </select>
+    <select id="read" resultType="com.example.domain.MissingVO">
+       select * from missing_report where reportNo=#{reportNo}
+    </select>
+    <insert id="insert" parameterType="com.example.domain.MissingVO">
+       insert into missing_report(
+          missingTime,missingLocation,dogImage,reward,tel,writer,feature,title,preperationTime
+       )
+       values(
+          #{missingTime},#{missingLocation},#{dogImage},#{reward},#{tel},#{writer},#{feature},#{title},now()
+       )
+       <selectKey resultType="int" keyProperty="reportNo" order="AFTER">
+           SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update">
+       update missing_report set
+       missingTime=#{missingTime},missingLocation=#{missingLocation},dogImage=#{dogImage},
+       reward=#{reward},tel=#{tel},writer=#{writer},feature=#{feature},title=#{title},
+       modifiedTime=now()
+       where reportNo=#{reportNo}
+    </update>
+    <delete id="delete">
+       delete from missing_report where reportNo=#{reportNo}
+    </delete>
+    <select id="totalCount" resultType="int">
+       select count(*) from missing_report
+       <if test="searchType=='missingLocation'">
+           where missingLocation like concat('%', #{keyword}, '%')
+        </if>
+        <if test="searchType=='tel'">
+           where tel like concat('%', #{keyword}, '%')
+        </if>
+        <if test="searchType=='feature'">
+           where feature like concat('%', #{keyword}, '%')
+        </if>
+    </select>
+    <insert id="addAttach">
+      insert into missing_attach(image,reportNo) values(#{image},#{reportNo})
+    </insert>
+    <select id="getAttach" resultType="string">
+       select image from missing_attach where reportNo=#{reportNo}
+    </select>
+    <delete id="delAttach">
+       delete from missing_attach where reportNo=#{reportNo}
+    </delete>
+</mapper>
