@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.QnAMapper">
+	<select id="qnaList"
+		resultType="com.example.domain.QnAMessageVO">
+		select * from qna_message
+		<if test="keyword=='null'">
+			where readDate=null
+		</if>
+		<if test="keyword=='not null'">
+			where readDate!=null
+		</if>
+		order by messageNo desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="qnaReply" resultType="com.example.domain.QnAReplyVO">
+		select q.message, r.* from
+		qna_message q left join qna_reply r
+		on q.messageNo=r.messageNo where q.messageNo=#{messageNo}
+	</select>
+	<insert id="replyInsert">
+		insert into qna_reply(messageNo,receiver,content)
+		values(#{messageNo},#{receiver},#{content})
+	</insert>
+	<update id="messageChecked">
+		update qna_message set readDate=now()
+		where
+		messageNo=#{messageNo}
+	</update>
+	<select id="uncheckedMessage" resultType="int">
+		select count(*) from qna_message where readDate is null
+	</select>
+		<select id="allMessage" resultType="int">
+		select count(*) from qna_message
+	</select>
+	<select id="getName" resultType="com.example.domain.QnAReplyVO">
+		select * from qna_message where messageNo=#{messageNo}
+	</select>
+	<insert id="messageInsert">
+		insert into qna_message(sender,title,message)
+		values(#{sender},#{title},#{message});
+	</insert>
+	<select id="list" resultType="com.example.domain.QnAMessageVO">
+		select * from qna_message where sender=#{sender}
+	</select>
+</mapper>
