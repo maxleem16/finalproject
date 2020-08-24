@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ManageMapper">
+	<select id="applyList"
+		resultType="com.example.domain.AdoptFormVO">
+		select a.*, d.species, u.* from adopt a left
+		join user u on
+		a.applicant=u.id
+		join dog d on
+		a.dogCode=d.dogCode
+		<if test="searchType=='applicationConfirm'">
+        where applicationConfirm like concat("%",#{keyword},"%")
+        </if>
+        order by applicationNo desc
+    	limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="counselingList"
+		resultType="com.example.domain.CounselingVO">
+		select c.*, u.*,d.* from counseling c, user u, dog d
+		where c.client=u.id and d.dogCode=c.dogCode 
+		<if test="keyword=='keyword'">
+			and cancleCheck=0
+		</if>
+		order by counselingDate desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="applyCount" resultType="int">
+		select count(*) from adopt
+		<if test="searchType=='applicationConfirm'">
+        where applicationConfirm like concat("%",#{keyword},"%")
+        </if>
+	</select>
+	<update id="cancleUpdate">
+      update user set position=#{position} where id=#{id}
+   </update>
+   <select id="counselingCount" resultType="int">
+   		select count(*) from counseling
+   </select>
+</mapper>

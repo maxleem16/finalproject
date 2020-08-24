@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DogMapper">
+	<select id="list" resultType="com.example.domain.DogVO">
+		select * from dog
+		where adoptStatus=0
+		<if test="searchType=='species'">
+			and species like concat("%",#{keyword},"%")
+		</if>
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="totalCount" resultType="int">
+		select count(*) from dog
+		<if test="searchType=='species'">
+			where species like concat("%",#{keyword},"%")
+		</if>
+	</select>
+	<select id="read" resultType="com.example.domain.DogVO">
+		select * from dog where dogCode=#{dogCode}
+	</select>
+	<insert id="insert">
+		insert into
+		dog(dogCode,age,gender,species,color,size,inoculationStatus,dogImage,feature,neutralizationStatus,information)
+		values(#{dogCode},#{age},#{gender},#{species},#{color},#{size},#{inoculationStatus},#{dogImage},#{feature},#{neutralizationStatus},#{information})
+	</insert>
+	<insert id="dog_attach">
+		insert into dog_attach(image,dogCode)
+		values(#{image},#{dogCode})
+	</insert>
+	<update id="update">
+		update dog set adoptStatus=#{adoptStatus},
+		age=#{age}, gender=#{gender}, species=#{species}, color=#{color},
+		size=#{size}, inoculationStatus=#{inoculationStatus},
+		dogImage=#{dogImage},feature=#{feature},
+		neutralizationStatus=#{neutralizationStatus},information=#{information}
+		where dogCode=#{dogCode}
+	</update>
+	<select id="get_Attach" resultType="string">
+		select image from dog_attach where dogCode=#{dogCode}
+	</select>
+	<delete id="del_attach">
+		delete from dog_attach where dogCode=#{dogCode}
+	</delete>
+	<select id="manageList" resultType="com.example.domain.AdoptVO">
+		select d.*, a.cancleCheck from dog d left join adopt a on d.dogCode=a.dogCode 
+		where adoptStatus like concat ('%',#{adoptStatus},'%')
+		<if test="cri.searchType=='size'">
+		and size like concat('%',#{cri.keyword},'%')
+		</if>
+		<if test="cri.sortType=='dogCode' and cri.desc=='desc'">
+		order by dogCode desc
+		</if>
+		<if test="cri.sortType=='dogCode' and cri.desc=='asc'">
+		order by dogCode asc
+		</if>
+		<if test="cri.sortType=='age' and cri.desc=='desc'">
+		order by age desc
+		</if>
+		<if test="cri.sortType=='age' and cri.desc=='asc'">
+		order by age asc
+		</if>
+		<if test="cri.sortType=='species' and cri.desc=='desc'">
+		order by species desc
+		</if>
+		<if test="cri.sortType=='species' and cri.desc=='asc'">
+		order by species asc
+		</if>
+		limit #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+	<select id="manageTotal" resultType="int">
+		select count(*) from dog d 
+		where adoptStatus like concat ('%',#{adoptStatus},'%')
+		<if test="cri.searchType=='size'">
+		and size like concat('%',#{cri.keyword},'%')
+		</if>
+	</select>
+</mapper>

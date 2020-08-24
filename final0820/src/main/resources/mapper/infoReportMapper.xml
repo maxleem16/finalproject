@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.infoReportMapper">
+   <select id="list" resultType="hashmap">
+      select * from info_Report
+      <if test="searchType=='foundLocation'">
+         where foundLocation like concat('%', #{keyword}, '%')
+      </if>
+      <if test="searchType=='writer'">
+         where writer like concat('%', #{keyword}, '%')
+      </if>
+      order by foundNo desc
+      limit #{pageStart}, #{perPageNum}
+   </select>
+   <select id="myList" resultType="com.example.domain.infoReportVO">
+      select * from info_Report
+      where writer=#{id}
+      order by foundNo desc
+   </select>
+   <select id="totalCount" resultType="int">
+      select count(*) from info_Report
+      <if test="searchType=='foundlocation'">
+         where foundLocation like concat('%', #{keyword}, '%')
+      </if>
+      <if test="searchType=='writer'">
+         where writer like concat('%', #{keyword}, '%')
+      </if>
+   </select>
+   <insert id="insert" parameterType="com.example.domain.infoReportVO">
+      insert into
+      info_Report(foundTime,foundLocation,protection,feature,dogImage,preperationTime,writer)
+      values(#{foundTime},#{foundLocation},#{protection},#{feature},#{dogImage},now(),#{writer})
+      <selectKey resultType="int" keyProperty="foundNo" order="AFTER">
+         SELECT LAST_INSERT_ID()
+      </selectKey>
+   </insert>
+   <select id="read" resultType="com.example.domain.infoReportVO">
+      select * from info_Report where
+      foundNo=#{foundNo}
+   </select>
+   <update id="update">
+      update info_Report set foundTime=#{foundTime},
+      foundLocation=#{foundLocation}, protection=#{protection},
+      feature=#{feature}, dogImage=#{dogImage}, modifiedTime=now()
+      where foundNo=#{foundNo}
+   </update>
+   <delete id="delete">
+      delete from info_Report where foundNo=#{foundNo}
+   </delete>
+   <select id="getAttach" resultType="String">
+      select image from info_attach
+      where foundNo=#{foundNo}
+   </select>
+   <insert id="addAttach">
+      insert into info_attach(image, foundNo)
+      values(#{image}, #{foundNo})
+   </insert>
+   <delete id="delAttach">
+      delete from info_attach
+      where foundNo=#{foundNo}
+   </delete>
+</mapper>

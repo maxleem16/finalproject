@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MypageMapper">
+	<select id="myDogLikeList"
+		resultType="com.example.domain.DogLikeVO">
+		select h.*, d.* from
+		dog_heart h left join dog d
+		on h.dogCode=d.dogCode
+		where id=#{id}
+	</select>
+	<select id="dogLikeList" resultType="hashmap">
+		select h.*, d.* from
+		dog_heart h left join dog d
+		on h.dogCode=d.dogCode
+		where id=#{id}
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<insert id="dogLikeInsert">
+		insert into dog_heart(heart,id,dogCode)
+		values
+		(1,#{id}, #{dogCode})
+	</insert>
+	<delete id="dogLikeDelete">
+		delete from dog_heart where id=#{id} and
+		dogCode=#{dogCode}
+	</delete>
+	<select id="count" resultType="int">
+		select count(*) from dog_heart
+		where id=#{id} and dogCode=#{dogCode}
+	</select>
+	<select id="applyList"
+		resultType="com.example.domain.AdoptFormVO">
+		select a.*, d.species,
+		d.dogImage, f.* from adopt a left join adopt_form f on
+		a.applicationNo=f.applicationNo join dog d on a.dogCode=d.dogCode
+		where applicant=#{id};
+	</select>
+	<select id="applyRead"
+		resultType="com.example.domain.AdoptFormVO">
+		select a.*, d.*, f.*,u.name
+		from adopt a left join adopt_form f on
+		a.applicationNo=f.applicationNo
+		join dog d on a.dogCode=d.dogCode
+		join user u on a.applicant=u.id
+		where
+		a.applicationNo=#{applicationNo};
+	</select>
+	<insert id="counselInsert">
+		insert into counseling(reserveNo, counselingDate,
+		counselingTime, dogCode, client, reservedDate)
+		values(#{applicationNo},#{counselingDate},#{counselingTime},#{dogCode},#{applicant},now())
+	</insert>
+	<select id="donationList" resultType="hashmap">
+		select d.*,u.name from donation d, user u where d.sponsor=u.id and
+		u.id=#{id}
+		<if test="donationMethod==''">
+
+		</if>
+		<if test="donationMethod!=''">
+			and donationMethod=#{donationMethod}
+		</if>
+		order by donationNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="boardList" resultType="hashmap">
+		select * from board
+		where writer=#{id}
+		order by postingNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="infoList" resultType="hashmap">
+		select * from info_report
+		where writer=#{id}
+		order by foundNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="missingList" resultType="hashmap">
+		select * from missing_report
+		where writer=#{id}
+		order by reportNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="totalCount" resultType="int">
+		select count(*) from board
+		where writer=#{id}
+	</select>
+	<select id="read" resultType="com.example.domain.UserVO">
+		select * from user where id=#{id}
+	</select>
+	<select id="counselList"
+		resultType="com.example.domain.CounselingVO">
+		select * from counseling where client=#{id}
+	</select>
+	<update id="counselCancle">
+		update counseling set cancleCheck='1' where reserveNo=#{reserveNo}
+	</update>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+	<update id="searchPassword" parameterType="Map">
+		update user set password = #{param3} where id = #{param1} and email = #{param2}
+	</update>
+	<select id="searchId" resultType="String">
+		select ifnull(id, 0) from user 
+        where name = #{name} and tel = #{tel} and user_key = 'Y'
+	</select>
+	<update id="GetKey" parameterType="Map">
+		update user set user_key=#{param2} where id=#{param1}
+	</update>
+	<update id="alter_userKey" parameterType="Map">
+		update user set user_key='Y' where id=#{param1} and user_key=#{param2}
+	</update>
+	<select id="list" resultType="com.example.domain.UserVO">
+		select * from user
+		<if test="searchType=='position'">
+			where position like concat('%', #{keyword}, '%')
+		</if>
+		limit #{pageStart},#{perPageNum}
+	</select>
+	<select id="totalCount" resultType="int">
+		select count(*) from user
+		<if test="searchType=='position'">
+			where position like concat('%', #{keyword}, '%')
+		</if>
+	</select>
+	<select id="read" resultType="com.example.domain.UserVO">
+		select * from user where id=#{id}
+	</select>
+	<insert id="insert">
+		insert into user(id,password,name,birthday,address,tel,email)
+		values(#{id},#{password},#{name},#{birthday},#{address},#{tel},#{email})
+	</insert>
+	<update id="update">
+		update user set password=#{password}, email=#{email}, address=#{address},
+		tel=#{tel} where id=#{id}
+	</update>
+	<update id="delete">
+		update user set activeStatus=1 where id=#{id}
+	</update>
+</mapper>
