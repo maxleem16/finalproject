@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.AdoptMapper">
+   <select id="list" resultType="com.example.domain.AdoptVO">
+      select * from adopt
+      order by
+      applicationNo desc
+      limit #{pageStart}, #{perPageNum}
+   </select>
+   <insert id="apply">
+      insert into adopt_form(applicationNo,
+      q1,q2,q3,q4,q5,q6,q7,q8,q9,q10)
+      values(#{applicationNo},#{q1},#{q2},#{q3},#{q4},#{q5},#{q6},#{q7},#{q8},#{q9},#{q10})
+   </insert>
+   <select id="read" resultType="com.example.domain.AdoptVO">
+      select a.*, u.*,d.species from
+      adopt a join user u on
+      applicant=id join dog d on a.dogCode=d.dogCode
+      where
+      applicationNo=#{applicationNo}
+   </select>
+   <select id="formRead"
+      resultType="com.example.domain.AdoptFormVO">
+      select * from adopt_form where
+      applicationNo=#{applicationNo}
+   </select>
+   <insert id="insert" parameterType="com.example.domain.AdoptVO">
+      insert into adopt(applicant, dogCode)
+      values(#{applicant},#{dogCode})
+      <selectKey resultType="int" keyProperty="applicationNo"
+         order="AFTER">
+         SELECT LAST_INSERT_ID()
+      </selectKey>
+   </insert>
+   <update id="adoptCancle">
+      update adopt set cancleCheck=#{cancleCheck}
+      where
+      applicationNo=#{applicationNo}
+   </update>
+   <delete id="deleteForm">
+      delete from adopt_form where
+      applicationNo=#{applicationNo}
+   </delete>
+   <update id="checkUpdate">
+      update adopt set
+      applicationConfirm=#{applicationConfirm}
+      where
+      applicationNo=#{applicationNo}
+   </update>
+   <select id="totalCount" resultType="int">
+      select count(*) from adopt
+   </select>
+   <select resultType="int" id="cancleCount"> 
+      select count(case when
+      cancleCheck=#{cancleCheck} then 1 end) from adopt,user where
+      applicant=id and id=#{id}; 
+   </select>
+  <select id="insertCheck" resultType="com.example.domain.AdoptVO">
+      select * from adopt where dogCode=#{dogCode} and applicationConfirm=0 or dogCode=#{dogCode} and applicationConfirm=1
+   </select>
+</mapper>

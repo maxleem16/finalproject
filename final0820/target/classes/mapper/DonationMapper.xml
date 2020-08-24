@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DonationMapper">
+	<select id="list" resultType="com.example.domain.DonationVO">
+		select d.*,u.* from donation d, user u where d.sponsor=u.id
+		<if test="searchType=='donationMethod'">
+			and donationMethod like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType=='paymentMethod'">
+			and paymentMethod like concat('%', #{keyword}, '%')
+		</if>
+		order by donationNo desc
+		limit #{pageStart},#{perPageNum}
+	</select>
+	<select id="myList" resultType="com.example.domain.DonationVO">
+		select d.*,u.name from donation d, user u where d.sponsor=u.id and
+		u.id=#{id}
+		<if test="donationMethod==''">
+
+		</if>
+		<if test="donationMethod!=''">
+			and donationMethod=#{donationMethod}
+		</if>
+		order by donationNo desc
+	</select>
+	<select id="read" resultType="com.example.domain.DonationVO">
+		select d.*,u.name from donation d, user u where d.sponsor=u.id
+		and donationNo=#{donationNo}
+	</select>
+	<select id="applyList" resultType="hashmap">
+		select d.*,u.name from donation d, user u where d.sponsor=u.id
+		and donationMethod=#{donationMethod} order by donationNo desc
+		limit #{cri.pageStart},#{cri.perPageNum}
+	</select>
+	<insert id="insert"
+		parameterType="com.example.domain.DonationVO">
+		insert into
+		donation(price,sponsor,sponsorContent,donationMethod,paymentMethod)
+		values(#{price},#{sponsor},#{sponsorContent},#{donationMethod},#{paymentMethod})
+		<selectKey resultType="int" keyProperty="donationNo"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<select id="totalCount" resultType="int">
+		select count(*) from donation
+		<if test="searchType=='donationMethod'">
+			where donationMethod like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType=='paymentMethod'">
+			where paymentMethod like concat('%', #{keyword}, '%')
+		</if>
+	</select>
+	<select id="totalCount2" resultType="int">
+		select count(*) from donation where donationMethod=#{donationMethod}
+	</select>
+	<select id="totalPrice" resultType="int">
+		select sum(price) from donation where donationMethod=#{donationMethod}
+	</select>
+	<select id="donationByMonth"
+		resultType="com.example.domain.DonationVO">
+		select month(donatedDate) month, sum(price) price from
+		donation group by month(donatedDate)
+	</select>
+	<select id="donationByDonor"
+		resultType="com.example.domain.DonationVO">
+		select sponsor, sum(price) price from donation group by
+		sponsor
+	</select>
+	<select id="totalDonor" resultType="int">
+		select count(*) from (select sponsor from donation group by
+		sponsor) donorcount
+	</select>
+	<select id="sumPrice" resultType="int">
+		select sum(price) from donation;
+	</select>
+	<select id="avgPrice"  resultType="int">
+		select avg(price) from donation where donationMethod=1;
+	</select>
+</mapper>
